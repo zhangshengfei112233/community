@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import zhang.community.community.dto.AccessTokenDTO;
+import zhang.community.community.dto.GithubUser;
 import zhang.community.community.provider.GithubProvider;
 
 @Controller
@@ -21,9 +22,11 @@ public class AuthorzeController {
         accessTokenDTO.setClient_id("143081188e9fc449a799");
         accessTokenDTO.setClient_secret("44dc051b60facdeb8fe635befb47231d4b6fc772");
         accessTokenDTO.setCode(code);
-        accessTokenDTO.setRedirect_uri("http://localhost:8080/callback");
+        accessTokenDTO.setRedirect_uri("http://localhost:8087/callback");
         accessTokenDTO.setState(state);
-        githubProvider.getAccessToken(accessTokenDTO);
+        String accessToken = githubProvider.getAccessToken(accessTokenDTO);
+        GithubUser user = githubProvider.getUser(accessToken);
+        System.out.println(user.getName());
         return "index";
     }
 }
