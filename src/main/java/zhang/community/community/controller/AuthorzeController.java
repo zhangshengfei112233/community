@@ -10,6 +10,8 @@ import zhang.community.community.dto.AccessTokenDTO;
 import zhang.community.community.dto.GithubUser;
 import zhang.community.community.provider.GithubProvider;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class AuthorzeController {
 
@@ -26,8 +28,9 @@ public class AuthorzeController {
     private String redirectUri;
 
     @GetMapping("/callback")
-    public String callback(@RequestParam(name = "code")String code,
-                           @RequestParam(name = "state")String state) {
+    public String callback(@RequestParam(name = "code") String code,
+                           @RequestParam(name = "state") String state,
+                           HttpServletRequest request) {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
@@ -36,7 +39,14 @@ public class AuthorzeController {
         accessTokenDTO.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser user = githubProvider.getUser(accessToken);
-        System.out.println(user.getName());
-        return "index";
+        if (user != null) {
+            request.getSession().setAttribute("user",user);
+            return "redirect:/";
+            //登陆成功，写cookie和session
+
+        } else {
+            //登陆失败，重新登陆
+            return "redirect:/";
+        }
     }
 }
