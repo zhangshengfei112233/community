@@ -12,7 +12,9 @@ import zhang.community.community.mapper.UserMapper;
 import zhang.community.community.model.User;
 import zhang.community.community.provider.GithubProvider;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -36,7 +38,8 @@ public class AuthorzeController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
-                           HttpServletRequest request) {
+                           HttpServletRequest request,
+                           HttpServletResponse response) {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
@@ -54,10 +57,9 @@ public class AuthorzeController {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
-
-            request.getSession().setAttribute("user",githubUser);
+            response.addCookie(new Cookie("token", accessToken));
             return "redirect:/";
-            //登陆成功，写cookie和session
+
 
         } else {
             //登陆失败，重新登陆

@@ -22,6 +22,7 @@ CREATE TABLE `user` (
   `new_column` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8
-
-
+```
+```bash
+mvn flyway:migrate
 ```
