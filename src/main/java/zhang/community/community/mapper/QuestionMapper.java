@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
+import zhang.community.community.dto.QuestionDTO;
 import zhang.community.community.model.Question;
 
 import java.util.List;
@@ -25,4 +26,7 @@ public interface QuestionMapper {
 
     @Select("select count(1) from question where creator=#{userId}")
     Integer countByUserId(@Param(value = "userId") Integer userId);
+
+    @Select("select * from question where id=#{id}")
+    Question getById(@Param(value = "id")Integer id);
 }
