@@ -1,9 +1,13 @@
 package zhang.community.community.dto;
 
+import lombok.Data;
+
+@Data
 public class GithubUser {
     private String name;
     private Long id;
     private String bio;
+    private String avatarUrl;
 
     public String getName() {
         return name;
@@ -29,12 +33,11 @@ public class GithubUser {
         this.bio = bio;
     }
 
-    @Override
-    public String toString() {
-        return "GithubUser{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                ", bio='" + bio + '\'' +
-                '}';
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

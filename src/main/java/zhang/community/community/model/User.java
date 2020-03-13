@@ -1,6 +1,8 @@
 package zhang.community.community.model;
 
+import lombok.Data;
 
+@Data
 public class User {
     private int id;
     private String name;
@@ -8,6 +10,7 @@ public class User {
     private String token;
     private Long gmtCreate;
     private Long gmtModified;
+    private String avatarUrl;
 
     public int getId() {
         return id;
@@ -57,15 +60,11 @@ public class User {
         this.gmtModified = gmtModified;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", accountId='" + accountId + '\'' +
-                ", token='" + token + '\'' +
-                ", gmtCreate=" + gmtCreate +
-                ", gmtModified=" + gmtModified +
-                '}';
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

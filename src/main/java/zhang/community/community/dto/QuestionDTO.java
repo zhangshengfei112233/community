@@ -1,9 +1,10 @@
-package zhang.community.community.model;
+package zhang.community.community.dto;
 
 import lombok.Data;
+import zhang.community.community.model.User;
 
 @Data
-public class Question {
+public class QuestionDTO {
     private int id;
     private String tittle;
     private String description;
@@ -14,6 +15,9 @@ public class Question {
     private Integer viewCount;
     private Integer commentCount;
     private Integer likeCount;
+
+
+    private User user;
 
     public int getId() {
         return id;
@@ -93,5 +97,13 @@ public class Question {
 
     public void setLikeCount(Integer likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

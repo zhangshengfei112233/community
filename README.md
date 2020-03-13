@@ -6,9 +6,12 @@
 [BootStrap文档](https://v3.bootcss.com/getting-started/)
 [Github Oauth](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)
 [Spring](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/html/spring-boot-features.html#boot-features-sql)
+[Spring MVC](https://docs.spring.io/spring/docs/5.2.4.RELEASE/spring-framework-reference/web.html#spring-web)
 ## 工具
 [Git](http://git-scm.com/download)
 [Visual Paradigm](http://www.visual-paradigm.com)
+[Flyway](https://flywaydb.org/)
+[Lombok](https://projectlombok.org/)
 
 ##脚本
 ```sql
