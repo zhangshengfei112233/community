@@ -10,6 +10,7 @@ import zhang.community.community.dto.GithubUser;
 import zhang.community.community.mapper.UserMapper;
 import zhang.community.community.model.User;
 import zhang.community.community.provider.GithubProvider;
+import zhang.community.community.service.UserService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +32,7 @@ public class AuthorzeController {
     private String redirectUri;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
@@ -52,10 +53,8 @@ public class AuthorzeController {
             user.setToken(accessToken);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());
-            userMapper.insert(user);
+            userService.createOrUpdate(user);
             response.addCookie(new Cookie("token", accessToken));
             return "redirect:/";
         } else {
@@ -63,4 +62,16 @@ public class AuthorzeController {
             return "redirect:/";
         }
     }
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,HttpServletResponse response){
+        request.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("token",null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+
+        return "redirect:/";
+    }
+
+
+
 }
