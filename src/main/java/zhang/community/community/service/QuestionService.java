@@ -8,6 +8,7 @@ import zhang.community.community.dto.PaginationDTO;
 import zhang.community.community.dto.QuestionDTO;
 import zhang.community.community.exception.CustomizeErrorCode;
 import zhang.community.community.exception.CustomizeException;
+import zhang.community.community.mapper.QuestionExtMapper;
 import zhang.community.community.mapper.QuestionMapper;
 import zhang.community.community.mapper.UserMapper;
 import zhang.community.community.model.Question;
@@ -24,13 +25,16 @@ public class QuestionService {
     private QuestionMapper questionMapper;
 
     @Autowired
+    private QuestionExtMapper questionExtMapper;
+
+    @Autowired
     private UserMapper userMapper;
 
     public PaginationDTO list(Integer page, Integer size) {
 
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalPage;
-        Integer totalCount = (int)questionMapper.countByExample(new QuestionExample());
+        Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
         } else {
@@ -46,7 +50,7 @@ public class QuestionService {
         }
         paginationDTO.setPagation(totalPage, page);
 
-        Integer offset =page < 1 ? 0 : size * (page - 1);
+        Integer offset = page < 1 ? 0 : size * (page - 1);
         List<Question> questions = questionMapper.selectByExampleWithBLOBsWithRowbounds(new QuestionExample(), new RowBounds(offset, size));
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
@@ -70,7 +74,7 @@ public class QuestionService {
         Integer totalPage;
         QuestionExample questionExample = new QuestionExample();
         questionExample.createCriteria().andCreatorEqualTo(userId);
-        Integer totalCount = (int)questionMapper.countByExample(questionExample);
+        Integer totalCount = (int) questionMapper.countByExample(questionExample);
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
         } else {
@@ -105,7 +109,7 @@ public class QuestionService {
 
     public QuestionDTO getById(Integer id) {
         Question question = questionMapper.selectByPrimaryKey(id);
-        if (question==null){
+        if (question == null) {
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
         QuestionDTO questionDTO = new QuestionDTO();
@@ -116,12 +120,12 @@ public class QuestionService {
     }
 
     public void creatOrUpdate(Question question) {
-        if (question.getId()==null){
+        if (question.getId() == null) {
             //创建
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
             questionMapper.insert(question);
-        }else{
+        } else {
             //更新
             Question updateQuestion = new Question();
             updateQuestion.setGmtModified(System.currentTimeMillis());
@@ -130,10 +134,17 @@ public class QuestionService {
             updateQuestion.setTittle(question.getTittle());
             QuestionExample example = new QuestionExample();
             example.createCriteria().andIdEqualTo(question.getId());
-            int updated=questionMapper.updateByExampleSelective(updateQuestion, example);
-            if(updated!=1){
+            int updated = questionMapper.updateByExampleSelective(updateQuestion, example);
+            if (updated != 1) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
+    }
+
+    public void incView(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
     }
 }
