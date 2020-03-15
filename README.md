@@ -12,6 +12,7 @@
 [Visual Paradigm](http://www.visual-paradigm.com)
 [Flyway](https://flywaydb.org/)
 [Lombok](https://projectlombok.org/)
+[Postman](https://chrome.google.com/webstore/deetail/coohjcphdfgbiolneckpbcijmhambjff)
 
 ##脚本
 ```sql
