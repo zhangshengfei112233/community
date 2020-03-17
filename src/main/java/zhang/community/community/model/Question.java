@@ -8,7 +8,7 @@ public class Question {
      *
      * @mbg.generated Sun Mar 15 15:06:23 CST 2020
      */
-    private Integer id;
+    private Long id;
 
     /**
      *
@@ -108,7 +108,7 @@ public class Question {
      *
      * @mbg.generated Sun Mar 15 15:06:23 CST 2020
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -120,7 +120,7 @@ public class Question {
      *
      * @mbg.generated Sun Mar 15 15:06:23 CST 2020
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
